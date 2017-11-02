@@ -21,7 +21,7 @@ char * getSize(int size){
   return a;
 }
 
-char * get_single_permission(int n){
+char * get_single_permission(int n){//convert single octal digit to ls -l form
   if (n == 7) return "rwx";
   if (n == 6) return "rw-";
   if (n == 5) return "r-x";
@@ -37,16 +37,11 @@ char * get_single_permission(int n){
 
 char * get_all_permissions(mode_t p){
   char * permissions = malloc(32);
-  //printf("%o\n", p);
-  int other = p % 8;
-  p = p / 8;
-  //printf("%o\n", p);
+  int other = p % 8; //extract last digit
+  p = p / 8; //remove last digit
   int group = p % 8;
   p = p / 8;
-  // printf("%o\n", p);
   int user = p % 8;
-  // printf("%o\n", p);
-  // printf("%d\n", user);
   sprintf(permissions, "%s%s%s", get_single_permission(user), get_single_permission(group), get_single_permission(other));
   return permissions;
 }
